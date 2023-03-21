@@ -24,9 +24,27 @@ Estimate of time needed to complete: 30 mins
 
 Start time: 4:45
 
-Finish time: _____
+Finish time: 6:00
 
-Actual time needed to complete: _____
+Actual time needed to complete: 1hr 15mins
+
+Name of feature: Location Form
+
+Estimate of time needed to complete: 45 mins
+
+Start time: 6:12
+Finish time: 8:08
+
+Actual time needed to complete: 2hrs
+
+Name of feature: Location, Map, and Error Implementation
+
+Estimate of time needed to complete: 45 mins
+
+Start time: 6:12
+Finish time: 8:08
+
+Actual time needed to complete: 2hrs
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
