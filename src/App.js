@@ -99,7 +99,7 @@ class App extends React.Component {
                 <Card.Text>{this.state.cityData.lon}</Card.Text>
                 <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=11`} alt="map img"></img>
               </Card>
-              <Weather date={this.state.date} description={this.state.description}/>
+              <Weather date={this.state.date} description={this.state.description} />
             </>
         }
       </>
