@@ -47,4 +47,7 @@ Finish time: 8:08
 Actual time needed to complete: 2hrs
 
 ## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+
+Acc Partners: Logan Reese Chris.
+
+![wrrc Diagram](public/WRRC.png)
