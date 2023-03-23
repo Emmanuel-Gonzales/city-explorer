@@ -45,7 +45,10 @@ class App extends React.Component {
         error: false
       });
 
-      this.handleGetWeather();
+      let lat = cityDataFromAxios.data[0].lat;
+      let lon = cityDataFromAxios.data[0].lon;
+
+      this.handleGetWeather(lat, lon);
 
       // let mapUrl = await `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=11`
 
@@ -63,16 +66,17 @@ class App extends React.Component {
 
   }
 
-  handleGetWeather = async () => {
-    let weatherUrl = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.searchQuery}`
+  handleGetWeather = async (lat, lon) => {
+    let weatherUrl = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.searchQuery}&lat=${lat}&lon=${lon}`
 
     let weatherData = await axios.get(weatherUrl);
     console.log(weatherData.data);
     this.setState({
-      weatherData: weatherData,
+      weatherData: weatherData.data,
       date: weatherData.data.date,
-      description: weatherData.data.discription
+      description: weatherData.data.description
     })
+    console.log(weatherData.data);
   }
 
   render() {
@@ -92,7 +96,8 @@ class App extends React.Component {
               <Alert.Heading>{this.state.errorCode}</Alert.Heading>
               <p>{this.state.errorMessage}</p>
             </Alert>
-            : <>
+            :Object.keys(this.state.cityData).length > 0 && 
+            <>
               <Card style={{ width: '30rem' }}>
                 <Card.Header>{this.state.cityData.display_name}</Card.Header>
                 <Card.Text>{this.state.cityData.lat}</Card.Text>
