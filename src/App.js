@@ -3,6 +3,7 @@ import axios from "axios";
 import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Weather from "./Weather";
+import Movie from "./Movie";
 import './App.css'
 
 
@@ -18,8 +19,7 @@ class App extends React.Component {
       errorCode: '',
       searchQuery: '',
       weatherData: '',
-      date: '',
-      description: ''
+      movieData: '',
     }
   }
 
@@ -48,7 +48,13 @@ class App extends React.Component {
       let lat = cityDataFromAxios.data[0].lat;
       let lon = cityDataFromAxios.data[0].lon;
 
-      this.handleGetWeather(lat, lon);
+      setTimeout(() => {
+
+        
+        this.handleGetWeather(lat, lon);
+      },1000)
+
+      this.handleGetMovie(this.state.searchQuery);
 
       // let mapUrl = await `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=11`
 
@@ -67,22 +73,30 @@ class App extends React.Component {
   }
 
   handleGetWeather = async (lat, lon) => {
-    let weatherUrl = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.searchQuery}&lat=${lat}&lon=${lon}`
+    let weatherUrl = `${process.env.REACT_APP_SERVER}/weather?lat=${lat}&lon=${lon}`
 
-    let weatherData = await axios.get(weatherUrl);
-    console.log(weatherData.data);
+    let weatherResults = await axios.get(weatherUrl);
+    console.log(weatherResults.data);
     this.setState({
-      weatherData: weatherData.data,
-      date: weatherData.data.date,
-      description: weatherData.data.description
+      weatherData: weatherResults.data,
     })
-    console.log(weatherData.data);
+    console.log(this.state.weatherData);
+  }
+
+  handleGetMovie = async (query) => {
+    let url = `${process.env.REACT_APP_SERVER}/movies?query=${query}`
+
+    let movieResults = await axios.get(url);
+    this.setState({
+      movieData: movieResults.data
+    })
   }
 
   render() {
+    console.log(this.state.weatherData)
     return (
       <>
-        <h1>API Call</h1>
+        <h1>Welcome to The City Explore</h1>
         <form onSubmit={this.getCityData}>
           <label > Enter in a City:
             <input type="text" onChange={this.handleCityInput} />
@@ -104,7 +118,12 @@ class App extends React.Component {
                 <Card.Text>{this.state.cityData.lon}</Card.Text>
                 <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=11`} alt="map img"></img>
               </Card>
-              <Weather date={this.state.date} description={this.state.description} />
+              <Alert>
+                <Alert.Heading>Weather Forecast</Alert.Heading>
+              {this.state.weatherData? this.state.weatherData.map(day => <Weather date={day.date} description={day.description} />) :<p>No Weather Data</p>}
+              </Alert>
+
+              {this.state.movieData? <Movie movieData={this.state.movieData} /> : <p></p>}
             </>
         }
       </>
