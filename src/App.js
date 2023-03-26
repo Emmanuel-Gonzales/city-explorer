@@ -3,7 +3,7 @@ import axios from "axios";
 import Alert from 'react-bootstrap/Alert';
 import Card from 'react-bootstrap/Card';
 import Weather from "./Weather";
-import Movie from "./Movie";
+import Movies from "./Movies";
 import './App.css'
 
 
@@ -37,7 +37,7 @@ class App extends React.Component {
       let url = `https://us1.locationiq.com/v1/search?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&q=${this.state.city}&format=json`
 
       let cityDataFromAxios = await axios.get(url);
-      console.log(cityDataFromAxios.data[0])
+      // console.log(cityDataFromAxios.data[0])
 
 
       this.setState({
@@ -76,11 +76,11 @@ class App extends React.Component {
     let weatherUrl = `${process.env.REACT_APP_SERVER}/weather?lat=${lat}&lon=${lon}`
 
     let weatherResults = await axios.get(weatherUrl);
-    console.log(weatherResults.data);
+    // console.log(weatherResults.data);
     this.setState({
       weatherData: weatherResults.data,
     })
-    console.log(this.state.weatherData);
+    // console.log(this.state.weatherData);
   }
 
   handleGetMovie = async (query) => {
@@ -93,7 +93,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.weatherData)
+    // console.log(this.state.weatherData)
     return (
       <>
         <h1>Welcome to The City Explore</h1>
@@ -118,12 +118,8 @@ class App extends React.Component {
                 <Card.Text>{this.state.cityData.lon}</Card.Text>
                 <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=11`} alt="map img"></img>
               </Card>
-              <Alert>
-                <Alert.Heading>Weather Forecast</Alert.Heading>
-              {this.state.weatherData? this.state.weatherData.map(day => <Weather date={day.date} description={day.description} />) :<p>No Weather Data</p>}
-              </Alert>
-
-              {this.state.movieData? <Movie movieData={this.state.movieData} /> : <p></p>}
+              {this.state.weatherData? <Weather weatherData={this.state.weatherData}/> :<p>No Weather Data</p>}
+              {this.state.movieData? <Movies movieData={this.state.movieData} /> : <p></p>}
             </>
         }
       </>

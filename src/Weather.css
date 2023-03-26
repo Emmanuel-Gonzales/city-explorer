@@ -1,0 +1,9 @@
+section{
+  display: flex;
+  justify-content: center;
+  gap: 10em;
+}
+
+h4{
+  color: black;
+}
